@@ -1,3 +1,3 @@
-![project logo](factorial.png)
+![project logo](logo.png)
 
 # Factorial API
