@@ -5,7 +5,7 @@ const express = require('express')
 const bigInt = require("big-integer"); // BigInt is not available in node 8
 
 const app = express()
-const port = 3000;
+const port = 80;
 
 /**
  * GET /factorial/random
@@ -35,7 +35,7 @@ app.get('/factorial/:n', (req, res) => {
         const input = bigInt(req.params.n);
 
         if(input.leq(0)) {
-            throw true;
+            throw new Error('Input must be greater than zero.');
         }
         res.json({
             input: input,
