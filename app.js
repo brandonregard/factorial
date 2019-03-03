@@ -49,8 +49,9 @@ app.get('/factorial/:n', (req, res) => {
 })
 
 /**
- * compute the factorial of a given integer greater than zero
- * use an iterative algorithm as optimized tail recursion is not supported
+ * compute the factorial of a given bigInt
+ * use an iterative algorithm as optimized tail recursion is not
+ * supported by V8
  * @param {bigInt} n - the integer to compute the factorial for
  * @returns {bigInt} calculated factorial
  */
