@@ -1,0 +1,29 @@
+{
+  "name": "factorial",
+  "version": "1.0.0",
+  "description": "REST API Application to compute factorials.",
+  "main": "app.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brandonregard/factorial.git"
+  },
+  "author": "Brandon Regard",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brandonregard/factorial/issues"
+  },
+  "homepage": "https://github.com/brandonregard/factorial#readme",
+  "dependencies": {
+    "big-integer": "^1.6.42",
+    "express": "^4.16.4",
+    "install": "^0.12.2",
+    "npm": "^6.8.0"
+  },
+  "devDependencies": {
+    "jasmine": "^3.3.1",
+    "supertest": "^3.4.2"
+  }
+}
