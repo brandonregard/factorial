@@ -42,5 +42,4 @@ aws cloudformation wait stack-create-complete --stack-name factorial
 
 # print our api endpoint
 aws cloudformation --region us-east-1 describe-stacks --stack-name factorial \
---query 'Stacks[?StackName==`factorial`].Outputs[?ExportName==`FactorialApiEndpoint`].OutputValue' \
---output text
+--query 'Stacks[?StackName==`factorial`].Outputs[0].OutputValue' --output text
