@@ -28,10 +28,10 @@
 
 ### Infrastructure as Code
 - Utilizes CloudFormation templates to build:
- - VPC with two subnets and routing to a public gateway
- - IAM role and policy to grant access to ECR from ECS
- - ECS Cluster and ALB to allow access to containers in respective subnets/AZs
- - Fargate task and service definitions for orchestration
+  - VPC with two subnets and routing to a public gateway
+  - IAM role and policy to grant access to ECR from ECS
+  - ECS Cluster and ALB to allow access to containers in respective subnets/AZs
+  - Fargate task and service definitions for orchestration
 - `deploy.sh` script:
   - Creates ECR repo, builds and pushes container image
   - Promotes code reuse through separate templates/stacks
