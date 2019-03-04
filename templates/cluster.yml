@@ -47,6 +47,12 @@ Resources:
       Protocol: 'HTTP'
       Port: 80
 
+  CloudWatchLogsGroup:
+    Type: 'AWS::Logs::LogGroup'
+    Properties:
+      LogGroupName: 'factorial'
+      RetentionInDays: 1
+
   ContainerSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
