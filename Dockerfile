@@ -1,4 +1,4 @@
-# lets use a lightweight image and pm2 for pruduction 
+# lets use a lightweight image and pm2 for prod 
 FROM node:8-alpine
 WORKDIR /usr/app
 ENV PORT=80

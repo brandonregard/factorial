@@ -1,0 +1,99 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Task and Service for factorial on Fargate'
+
+Parameters:
+  Image:
+    Type: 'String'
+    Description: 'ECR application image'
+
+Resources:
+
+  # we are using fargate
+  # make sure our task has access to ECR
+  Task:
+    Type: 'AWS::ECS::TaskDefinition'
+    Properties:
+      Family: 'factorial'
+      Cpu: 256
+      Memory: 512
+      NetworkMode: 'awsvpc'
+      RequiresCompatibilities:
+        - 'FARGATE'
+      ExecutionRoleArn: !ImportValue 'ECSTaskExecutionRole'
+      ContainerDefinitions:
+        - Name: 'factorial'
+          Image: !Ref 'Image'
+          PortMappings:
+            - ContainerPort: 80
+              Protocol: 'tcp'
+          LogConfiguration:
+            LogDriver: 'awslogs'
+            Options:
+              awslogs-group: 'factorial'
+              awslogs-region: !Ref 'AWS::Region'
+              awslogs-stream-prefix: 'factorial'
+
+  # configure service with the alb
+  # max out at 4 tasks for this demo
+  Service:
+    Type: 'AWS::ECS::Service'
+    DependsOn: ListenerRule
+    Properties:
+      TaskDefinition: !Ref Task
+      Cluster: !ImportValue 'ECSCluster'
+      LaunchType: 'FARGATE'
+      DesiredCount: 2
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 70
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: 'ENABLED'
+          Subnets:
+            - !ImportValue 'Subnet1'
+            - !ImportValue 'Subnet2'
+          SecurityGroups:
+            - !ImportValue 'ContainerSecurityGroup'
+      LoadBalancers:
+        - ContainerName: 'factorial'
+          ContainerPort: 80
+          TargetGroupArn: !Ref TargetGroup
+
+  # target group to forward our requests to
+  # setup health checking
+  TargetGroup:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      VpcId: !ImportValue 'VPC'
+      Port: 80
+      Protocol: 'HTTP'
+      Matcher:
+        HttpCode: '200-299'
+      HealthCheckPath: '/factorial/1'
+      HealthCheckProtocol: 'HTTP'
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 10
+      TargetType: 'ip'
+
+  # forward anything using our base route to the target group
+  ListenerRule:
+    Type: 'AWS::ElasticLoadBalancingV2::ListenerRule'
+    Properties:
+      ListenerArn: !ImportValue 'Listener'
+      Priority: 1
+      Conditions:
+        - Field: 'path-pattern'
+          Values:
+            - '/factorial/*'
+      Actions:
+        - TargetGroupArn: !Ref TargetGroup
+          Type: 'forward'
+
+# output the final api endpoint
+Outputs:
+
+  ApiEndpoint:
+    Description: 'factorial api endpoint'
+    Value: !Join ['', ['http://', !ImportValue 'DomainName', '/factorial/random']]
+    Export:
+      Name: 'FactorialApiEndpoint' 
