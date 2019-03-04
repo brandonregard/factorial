@@ -17,6 +17,7 @@
     "output": "120"
 }
 ```
+**Demo:** http://factorial-1664395615.us-east-1.elb.amazonaws.com/factorial/random 
 
 **Libraries:**
 - Node 8 (https://nodejs.org)
@@ -35,5 +36,3 @@
   - Creates ECR repo, builds and pushes container image
   - Promotes code reuse through separate templates/stacks
   - May be abandoned in favor of nested stacks (https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html)
-  
-### Demo: 
