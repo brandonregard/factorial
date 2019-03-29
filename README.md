@@ -17,7 +17,9 @@
     "output": "120"
 }
 ```
-**Demo:** http://factorial-1664395615.us-east-1.elb.amazonaws.com/factorial/random 
+**Demo:** 
+- http://factorial-1664395615.us-east-1.elb.amazonaws.com/factorial/random
+- Application can be started on request or please try the deploy script yourself (aws cli access required)
 
 **Libraries:**
 - Node 8 (https://nodejs.org)
